@@ -79,5 +79,11 @@ func (ae *AppEngine) Start() error {
 
 	r := ae.Setup(logger)
 
-	return r.Run(fmt.Sprintf("%s:%s", ae.Config.GetString("web.listen.host"), ae.Config.GetString("web.listen.port")))
+	return r.RunTLS(
+		fmt.Sprintf("%s:%s",
+			ae.Config.GetString("web.listen.host"),
+			ae.Config.GetString("web.listen.port")),
+		ae.Config.GetString("web.tls.certfile"),
+		ae.Config.GetString("web.tls.keyfile"),
+	)
 }
